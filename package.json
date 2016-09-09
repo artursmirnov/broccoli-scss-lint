@@ -7,24 +7,38 @@
     "type": "git",
     "url": "git+https://github.com/artursmirnov/broccoli-scss-lint.git"
   },
-  "keywords": [
-    "broccoli-plugin",
-    "scss-lint",
-    "scss",
-    "linter"
-  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
   "author": {
     "name": "Artur Smirnov",
     "email": "mail@artursmirnov.com"
   },
+  "contributors": [
+    {
+      "name": "Artur Smirnov",
+      "email": "mail@artursmirnov.com"
+    },
+    {
+      "name": "Tomas Basham",
+      "email": "me@tomasbasham.co.uk"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/artursmirnov/broccoli-scss-lint/issues"
   },
   "homepage": "https://github.com/artursmirnov/broccoli-scss-lint#readme",
   "dependencies": {
-    "broccoli-caching-writer": "2.2.1",
+    "broccoli-persistent-filter": "1.2.11",
     "colors": "1.1.2",
+    "js-string-escape": "1.0.1",
     "shelljs": "0.6.0"
-  }
+  },
+  "keywords": [
+    "broccoli-plugin",
+    "scss-lint",
+    "scss",
+    "linter"
+  ]
 }
