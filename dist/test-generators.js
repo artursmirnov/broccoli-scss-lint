@@ -112,4 +112,4 @@ function mochaString(relativePath, passed, messages) {
 var qunit = testGenerator(qunitString);
 var mocha = testGenerator(mochaString);
 
-module.exports = { quint: quint, mocha: mocha };
+module.exports = { qunit: qunit, mocha: mocha };
