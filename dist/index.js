@@ -6,6 +6,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var Filter = require('broccoli-persistent-filter');
 var md5Hex = require('md5-hex');
 var stringify = require('json-stable-stringify');
+var minimatch = require('minimatch');
 var linter = require('sass-lint');
 var path = require('path');
 var jsStringEscape = require('js-string-escape');
@@ -161,7 +162,7 @@ ScssLinter.prototype.cacheKeyProcessString = function (content, relativePath) {
  *   Content of the file.
  *
  * @param {String} relativePath
- *   File name from the bae tree directory.
+ *   The relative path to the file on disk.
  *
  * @return {Object}
  *   Cacheable object containing the results from the linting task.
@@ -203,6 +204,87 @@ ScssLinter.prototype.postProcess = function (_ref) {
 };
 
 /*
+ * Whilst the broccoli filter plugin can
+ * already handle filtering files that do
+ * not have the specified extension we need
+ * to further filter the files by their
+ * relative paths.
+ *
+ * @method getDestFilePath
+ *
+ * @param {String} relativePath
+ *   The relative path to the file on disk.
+ *
+ * @return {String}
+ *   The relative path to the file if it should be linted, otherwise null.
+ */
+ScssLinter.prototype.getDestFilePath = function (relativePath) {
+
+  // Check if the relative path should be ignored
+  // as specified within the options.
+  if (this.shouldIgnore(relativePath)) {
+    return null;
+  }
+
+  return Filter.prototype.getDestFilePath.apply(this, arguments);
+};
+
+/*
+ * Test relative file paths against
+ * configured ignore paths.
+ *
+ * @method shouldIgnore
+ *
+ * @param {String} relativePath
+ *   The relative path to the file on disk.
+ *
+ * @return {Bool}
+ *   True if the file should be ignored, otherwise false.
+ */
+ScssLinter.prototype.shouldIgnore = function (relativePath) {
+  var _getConfig = this.getConfig(),
+      files = _getConfig.files;
+
+  var ignore = files.ignore;
+
+
+  if (typeof ignore === 'string') {
+    if (minimatch(relativePath, ignore)) {
+      return true;
+    }
+  } else if (Array.isArray(ignore) && ignore.length > 0) {
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = ignore[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var file = _step2.value;
+
+        if (minimatch(relativePath, file)) {
+          return true; // Break early if a match is found.
+        }
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  }
+
+  return false;
+};
+
+/*
  * Call upon sass-lint to lint the content
  * of a specific file.
  *
@@ -212,7 +294,7 @@ ScssLinter.prototype.postProcess = function (_ref) {
  *   Content of the file.
  *
  * @param {String} relativePath
- *   File name from the bae tree directory.
+ *   The relative path to the file on disk.
  *
  * @return {Object}
  *   Results from the linting task.
@@ -239,7 +321,7 @@ ScssLinter.prototype.lintText = function (content, relativePath) {
  *
  * @method outputResults
  *
- * @param {Object} report
+ * @param {Object} reports
  *   Results from the linting task.
  *
  * @return {Object}
