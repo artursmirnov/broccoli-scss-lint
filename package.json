@@ -2,29 +2,67 @@
   "name": "broccoli-scss-linter",
   "version": "2.0.2",
   "description": "Broccoli plugin for scss-lint",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebabelify": "rimraf dist",
+    "babelify": "babel lib --out-dir dist",
+    "prepublish": "npm run babelify"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/artursmirnov/broccoli-scss-lint.git"
   },
-  "keywords": [
-    "broccoli-plugin",
-    "scss-lint",
-    "scss",
-    "linter"
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "files": [
+    "dist"
   ],
   "author": {
     "name": "Artur Smirnov",
     "email": "mail@artursmirnov.com"
   },
+  "contributors": [
+    {
+      "name": "Artur Smirnov",
+      "email": "mail@artursmirnov.com"
+    },
+    {
+      "name": "Tomas Basham",
+      "email": "me@tomasbasham.co.uk"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/artursmirnov/broccoli-scss-lint/issues"
   },
   "homepage": "https://github.com/artursmirnov/broccoli-scss-lint#readme",
   "dependencies": {
-    "broccoli-caching-writer": "2.2.1",
-    "colors": "1.1.2",
-    "shelljs": "0.6.0"
-  }
+    "broccoli-persistent-filter": "1.2.11",
+    "js-string-escape": "1.0.1",
+    "json-stable-stringify": "^1.0.1",
+    "md5-hex": "1.3.0",
+    "minimatch": "3.0.3",
+    "sass-lint": "1.10.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
+    "chai": "^2.2.0",
+    "mocha": "^2.2.1",
+    "rimraf": "^2.5.1",
+    "sinon": "^1.17.7"
+  },
+  "keywords": [
+    "broccoli-plugin",
+    "broccoli-lint",
+    "broccoli-sass",
+    "broccoli-scss",
+    "sass-lint",
+    "scss-lint",
+    "sass",
+    "scss",
+    "lint",
+    "linter"
+  ]
 }
