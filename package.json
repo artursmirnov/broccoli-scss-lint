@@ -1,6 +1,6 @@
 {
   "name": "broccoli-scss-linter",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Broccoli plugin for scss-lint",
   "main": "dist/index.js",
   "scripts": {
