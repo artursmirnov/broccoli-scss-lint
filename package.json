@@ -6,7 +6,7 @@
   "scripts": {
     "prebabelify": "rimraf dist",
     "babelify": "babel lib --out-dir dist",
-    "prepublish": "npm run babelify"
+    "prepare": "npm run babelify"
   },
   "repository": {
     "type": "git",
